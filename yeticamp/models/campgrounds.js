@@ -20,6 +20,19 @@ var campgroundSchema = new mongoose.Schema({
         },
         username: String
     },
+    geometry: {
+        type: {
+          type: String,
+          enum: ['Point'], 
+        
+        },
+        coordinates: {
+          type: [Number],
+          
+        }
+      }
+    ,
+    location: String,
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,

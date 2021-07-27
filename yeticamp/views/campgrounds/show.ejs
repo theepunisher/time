@@ -1,16 +1,31 @@
 <% include ../partials/header %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.checked {
+  color: orange;
+  
+}
+</style>
+<script>
+    const maptoken = '<%-process.env.MAPBOX_TOKEN%>'; 
+</script>
 
 <main role="main" class="flex-shrink-0">
 
     <div class="container">
-        <h1><%= campground.name %></h1>
+        
+        <!-- <div id="map" style="width:400px; height:300px;"</div> -->
         <hr>
         <div class="row">
             <!-- Left Side -->
-            <div class="col-md-8">
+           
+            <div class="col-md-6">
+                <h1><%= campground.name %></h1>
+                <!-- <div id='map' style='width: 400px; height: 300px;'></div> -->
+
                 <!-- Campground Card -->
                 <div style="border-top:5px solid rgb(39, 37, 37)" class="card mb-4">
-                    <img class="bd-placeholder-img card-img-top" src="<%= campground.image %>"
+                    <img class="bd-placeholder-img card-img-top"  width="400" height="400" src="<%= campground.image %>"
                         alt="Picture of <%= campground.name %>">
                     <div class="card-body">
                         <p class="card-text text-muted"><%= campground.description %></p>
@@ -42,8 +57,10 @@
                 </div>
             </div>
             <!-- Right Side -->
-            <div class="col-md-4">
-                <div style="border-top:5px solid rgb(39, 37, 37)" class="card card-body bg-light">
+            <div class="col-md-4 pt-5 mt-1">
+                <div id='map' style='width: 400px; height: 300px;'></div>
+                <div class="pt-2"style="border-top:5px solid rgb(39, 37, 37)" class="card card-body bg-light">
+                
                     <p class="lead"><strong>Author: </strong><span style="text-align: right;"><strong><a
                                     href="/users/<%= campground.author.id %>"><em><%= campground.author.username %></em></a></strong>
                         </span>
@@ -67,10 +84,10 @@
                             <% } else { %>
                             <div style="text-align: center;">
                                 <p>
-                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked fa-3x"></span>
                                     <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>">
                                     </span>
-                                    <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>">
+                                    <span class="fas fa-star <% if (campground.rating > 2.5) { %> checked <% } %>">
                                     </span>
                                     <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>">
                                     </span>
@@ -500,76 +517,9 @@
         </div>
 </main>
 
-<!-- <script>
-    function initMap() {
-      var lat = <%= campground.lat %>;
-      var lng = <%= campground.lng %>;
-      var center = {lat: lat, lng: lng };
-      var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: center,
-          scrollwheel: false
-      });
-      var contentString = `
-        <strong><%= campground.name %><br />
-        <%= campground.location %></strong>
-        <p><%= campground.description %></p>
-      `
-      var infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-      var marker = new google.maps.Marker({
-          position: center,
-          map: map
-      });
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });s
-    }
-  </script> -->
+
 <script>
-    function initMap() {
-        //MAP OPTIONS
-        var options = {
-            zoom: 8,
-            center: {
-                lat: 28.7041,
-                lng: 77.1025
-            }
-        };
-        //NEW MAP
-        var map = new google.maps.Map(document.getElementById('map'), options);
-
-        var markers = [
-            {
-                coords: { lat: 28.715770, lng: 77.176491 },
-                content: "<h4>E-book Store</h4>"
-            }
-        ];
-        for (var i = 0; i < markers.length; i++) {
-            addMarker(markers[i]);
-        }
-
-        //ADD MARKER FUNCTION
-        function addMarker(props) {
-            var marker = new google.maps.Marker({
-                position: props.coords,
-                map: map,
-                // icon:'';    We can chnage the icon of the marker using this wherein we need to provide a link to the image 
-            });
-            if (props.content) {
-                var infoWindow = new google.maps.InfoWindow({
-                    content: props.content
-                });
-                marker.addListener("click", function () {
-                    infoWindow.open(map, marker);
-                });
-            }
-        }
-    }
+    const campground = <%- JSON.stringify(campground) %>
 </script>
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQJbML2d8XY-eRNk1-icAXZ7sBdnj_XCs&callback=initMap">
-    </script>
-
+<script src="/JS/showpagemap.js"></script>
 <% include ../partials/footer %>

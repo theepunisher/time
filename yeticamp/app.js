@@ -18,7 +18,7 @@ var express = require("express"),
     User = require("./models/user"),
     Notification=require("./models/notification"),
     seedDB = require("./seeds.js")
-
+const path = require('path');
 //requiring routes
 var commentRoutes = require("./routes/comments"),
     reviewRoutes = require("./routes/reviews"),
@@ -26,15 +26,28 @@ var commentRoutes = require("./routes/comments"),
     userRoutes=require("./routes/user"),
     indexRoutes = require("./routes/index")
 
-var url = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp_12";
-mongoose.connect(url, { useNewUrlParser: true })
-    .then(() => console.log(`Database connected`))
-    .catch(err => console.log(`Database connection error: ${err.message}`));
+    const dbUrl = process.env.DB_URL
+    // 'mongodb://localhost/yeti-Camp'
+    
+    mongoose.connect(dbUrl, {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true,
+        useCreateIndex:true,
+        useFindAndModify:true
+    });
+    
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        console.log("we're connected!"); 
+    });
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public/img/', express.static('./public/img'));
+app.set("views",path.join(__dirname,'views'))
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB();   //every time we run the server seeds.js runs

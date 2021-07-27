@@ -6,6 +6,9 @@ var Review = require("../models/review");
 var Comment = require("../models/comment");
 var Notification = require("../models/notification");
 var User = require("../models/user");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 // var NodeGeocoder = require('node-geocoder');
 
 // var options = {
@@ -34,9 +37,9 @@ var upload = multer({ storage: storage, fileFilter: imageFilter })
 
 var cloudinary = require('cloudinary');
 cloudinary.config({
-    cloud_name: 'distroters',
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    cloud_name: 'ayushuprety',
+    api_key: process.env.cloudinary_apikey,
+    api_secret: process.env.cloudinary_apisecret
 });
 
 //INDEX - show all campgrounds
@@ -132,7 +135,14 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
             username: req.user.username
         };
         try {
+           
             let campground = await Campground.create(req.body.campground);
+            const geoData = await geocoder.forwardGeocode({
+                query:req.body.campground.location,
+                limit: 1
+            }).send()
+            console.log(geoData)
+            campground.geometry = geoData.body.features[0].geometry;
             let user = await User.findById(req.user._id).populate('followers').exec();
             let newNotification = {
                 username: req.user.username,
@@ -143,6 +153,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
                 follower.notifications.push(notification);
                 follower.save();
             }
+            await campground.save();
 
             //redirect back to campgrounds page
             res.redirect(`/campgrounds/${campground.slug}`);

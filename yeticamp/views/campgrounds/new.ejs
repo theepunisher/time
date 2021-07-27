@@ -23,13 +23,19 @@
           <label for="campground-desc">Description</label>
         </div>
 
+        <div class="form-group">
+          <input id="campground-location" class="form-control" type="text" name="campground[location]" placeholder="Location" required>
+          <label for="campground-location">Location</label>
+        </div>
+       
+
         <!-- <div class="form-group">
           <input id="campground-location" class="form-control" type="text" name="location" placeholder="Yosemite National Park, CA" required>
           <label for="campground-location">Location (ex: Yosemite National Park, CA)</label>
         </div> -->
 
         <div class="form-group">
-          <input id="campground-image" class="form-control" type="file" accept="image/*" name="image" autocomplete="off" required>
+          <input id="campground-image" class="form-control" type="file" accept="image/*" name="image" autocomplete="off" multiple required>
           <label for="campground-image">Image</label>
         </div>
 
