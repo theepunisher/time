@@ -1,5 +1,5 @@
 {
-  "name": "yelpcamp",
+  "name": "yeticamp",
   "version": "1.0.0",
   "description": "YelpCamp v1",
   "main": "app.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "author": "Himanshu Gupta",
+  "author": "Ayush Uprety",
   "license": "ISC",
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.13.0",

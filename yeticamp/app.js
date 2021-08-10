@@ -57,7 +57,7 @@ app.locals.moment = require('moment');
 
 //PASSPORT CONFIGURATION
 app.use(expressSession({
-    secret: "This is the yelpcamp secret",
+    secret: "This is the yeticamp secret",
     resave: false,
     saveUninitialized: false
 }));
@@ -89,5 +89,5 @@ app.use("/campgrounds/:slug/comments", commentRoutes);
 app.use("/campgrounds/:slug/reviews", reviewRoutes);
 
 app.listen(process.env.PORT || 3000, function () {
-    console.log("YelpCamp has started");
+    console.log("YetiCamp has started");
 });

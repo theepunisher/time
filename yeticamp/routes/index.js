@@ -38,7 +38,7 @@ router.post("/register", function (req, res) {
             return res.render("register", { error: err.message });
         }
         passport.authenticate("local")(req, res, function () {
-            req.flash("success", "Welcome to YelpCamp " + user.username);
+            req.flash("success", "Welcome to YetiCamp " + user.username);
             res.redirect("/campgrounds");
         });
     });
@@ -54,7 +54,7 @@ router.post("/login", passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login",
     failureFlash: true,
-    successFlash: 'Welcome to YelpCamp!'
+    successFlash: 'Welcome to YetiCamp!'
 }), function (req, res) {
 
 });
@@ -99,13 +99,13 @@ router.post('/forgot', function (req, res, next) {
             var smtpTransport = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
-                    user: 'guptahimanshu479@gmail.com',
+                    user: 'ayushuprety1@gmail.com',
                     pass: process.env.GMAILPW
                 }
             });
             var mailOptions = {
                 to: user.email,
-                from: 'guptahimanshu479@gmail.com',
+                from: 'ayushuprety1@gmail.com',
                 subject: 'Node.js Password Reset',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
